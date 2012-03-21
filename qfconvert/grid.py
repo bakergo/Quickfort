@@ -66,14 +66,6 @@ class Grid:
         else:
             return False
 
-    def get_row(self, y):
-        """Returns the row with index y from the grid."""
-        return self.rows[y]
-
-    def get_col(self, x):
-        """Returns the column with index x from the grid."""
-        return self.rows[:, x]
-
     def get_axis(self, index, direction):
         """
         Returns the row with specified index for e/w direction.
@@ -81,9 +73,9 @@ class Grid:
         """
 
         if direction.axis() == 'y':
-            return self.get_col(index)
+            return self.rows[:, index]
         else:
-            return self.get_row(index)
+            return self.rows[index]
 
     def get_length_of_axis(self, direction):
         """
