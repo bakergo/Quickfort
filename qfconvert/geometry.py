@@ -3,9 +3,6 @@ Various forms of geometry and geometry related classes used throughout
 qfconvert.
 """
 
-from math import sqrt
-
-
 def compare_points((x1, y1), (x2, y2)):
     """
     Returns 0 if the two points are equal.
@@ -19,13 +16,11 @@ def compare_points((x1, y1), (x2, y2)):
     else:
         return -1
 
-
 def add_points((x1, y1), (x2, y2)):
     """
     Adds (translates) the points returning (x1+x2, y1+y2).
     """
     return (x1 + x2, y1 + y2)
-
 
 def multiply_points((x1, y1), (x2, y2)):
     """
@@ -33,13 +28,11 @@ def multiply_points((x1, y1), (x2, y2)):
     """
     return (x1 * x2, y1 * y2)
 
-
 def scale_point((x, y), m):
     """
     Scales (multiplies) the given point by magnitude m.
     """
     return (x * m, y * m)
-
 
 def get_coord_along_axis((x, y), direction):
     """
@@ -48,19 +41,12 @@ def get_coord_along_axis((x, y), direction):
     """
     return x if direction.compass in ('n', 's') else y
 
-
 def get_coord_crossing_axis((x, y), direction):
     """
     Treating the line passing through (x, y) in the provided
     direction as an axis, return the perpendicular axis's coordinate.
     """
     return y if direction.compass in ('n', 's') else x
-
-
-def distance((x1, y1), (x2, y2)):
-    """Returns straight-line distance between provided points."""
-    return sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
-
 
 def midpoint((x1, y1), (x2, y2)):
     """
@@ -167,15 +153,11 @@ class Direction:
 class Area:
     """Represents a rectangular area defined on the cartesian grid."""
 
-    def __init__(self, (x, y), (x_opposite, y_opposite)):
+    def __init__(self, (x1, y1), (x2, y2)):
         # Get lists of the 2 x coords and 2 y coords
 
-        xs = [x, x_opposite]
-        ys = [y, y_opposite]
-
-        # Sort coords so the northernmost and westernmost coordinate is first
-        xs.sort()
-        ys.sort()
+        xs = [x1, x2] if x1 < x2 else [x2, x1]
+        ys = [y1, y2] if y1 < y2 else [y2, y1]
 
         # Ordered clockwise from NW corner:
         # NW, NE, SE, SW
@@ -205,13 +187,10 @@ class Area:
         """Returns size (geometric area) of area, min 1."""
         return self.width() * self.height()
 
-    def diagonal_length(self):
-        """Returns corner-to-opposite-corner distance of area."""
-        return sqrt(self.width() ** 2 + self.height() ** 2)
-
     def opposite_corner(self, corner):
         """Returns the opposite corner of area given param `corner`."""
         for i in xrange(0, 4):
             if corner == self.corners[i]:
                 return self.corners[(i + 2) % 4]
         return None
+
